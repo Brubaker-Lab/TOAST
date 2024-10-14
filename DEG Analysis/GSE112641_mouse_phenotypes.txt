@@ -1,0 +1,101 @@
+!Sample_geo_accession	StrainNumeric	SuceptibilityNumeric	InjuryNumeric	SampleCollectionNumeric_Days	BatchNumeric	SampleTitle	Strain	Suceptibility	!Sample_characteristics_ch1	!Sample_characteristics_ch1	!Sample_characteristics_ch1
+GSM3074732	1	-1	-1	0	1	x0D_MRL_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074733	1	-1	-1	0	1	x0D_MRL_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074734	1	-1	-1	0	1	x0D_MRL_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074735	1	-1	-1	0	1	x0D_MRL_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074736	2	0	-1	0	1	x0D_BL6_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074737	2	0	-1	0	1	x0D_BL6_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074738	2	0	-1	0	1	x0D_BL6_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074739	2	0	-1	0	1	x0D_BL6_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074740	3	1	-1	0	1	x0D_STR_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074741	3	1	-1	0	1	x0D_STR_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074742	3	1	-1	0	1	x0D_STR_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074743	3	1	-1	0	1	x0D_STR_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 0-day [before injury]	experimental batch: 1
+GSM3074744	1	-1	1	1	1	x1D_MRL_injured_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074745	1	-1	1	1	1	x1D_MRL_injured_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074746	1	-1	1	1	1	x1D_MRL_injured_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074747	1	-1	1	1	1	x1D_MRL_injured_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074748	1	-1	1	1	1	x1D_MRL_injured_rep5	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074749	1	-1	-1	1	1	x1D_MRL_uninjured_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074750	1	-1	-1	1	1	x1D_MRL_uninjured_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074751	1	-1	-1	1	1	x1D_MRL_uninjured_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074752	1	-1	-1	1	1	x1D_MRL_uninjured_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074753	1	-1	-1	1	1	x1D_MRL_uninjured_rep5	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074754	2	0	1	1	1	x1D_BL6_injured_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074755	2	0	1	1	1	x1D_BL6_injured_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074756	2	0	1	1	1	x1D_BL6_injured_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074757	2	0	1	1	1	x1D_BL6_injured_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074758	2	0	1	1	1	x1D_BL6_injured_rep5	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074759	2	0	-1	1	1	x1D_BL6_uninjured_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074760	2	0	-1	1	1	x1D_BL6_uninjured_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074761	2	0	-1	1	1	x1D_BL6_uninjured_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074762	2	0	-1	1	1	x1D_BL6_uninjured_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074763	2	0	-1	1	1	x1D_BL6_uninjured_rep5	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074764	3	1	1	1	1	x1D_STR_injured_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074765	3	1	1	1	1	x1D_STR_injured_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074766	3	1	1	1	1	x1D_STR_injured_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074767	3	1	1	1	1	x1D_STR_injured_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074768	3	1	1	1	1	x1D_STR_injured_rep5	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074769	3	1	-1	1	1	x1D_STR_uninjured_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074770	3	1	-1	1	1	x1D_STR_uninjured_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074771	3	1	-1	1	1	x1D_STR_uninjured_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074772	3	1	-1	1	1	x1D_STR_uninjured_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074773	3	1	-1	1	1	x1D_STR_uninjured_rep5	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-day post-injury	experimental batch: 1
+GSM3074774	1	-1	1	7	1	x1W_MRL_injured_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074775	1	-1	1	7	1	x1W_MRL_injured_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074776	1	-1	1	7	1	x1W_MRL_injured_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074777	1	-1	1	7	1	x1W_MRL_injured_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074778	1	-1	1	7	1	x1W_MRL_injured_rep5	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074779	1	-1	-1	7	1	x1W_MRL_uninjured_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074780	1	-1	-1	7	1	x1W_MRL_uninjured_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074781	1	-1	-1	7	1	x1W_MRL_uninjured_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074782	1	-1	-1	7	1	x1W_MRL_uninjured_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074783	2	0	1	7	1	x1W_BL6_injured_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074784	2	0	1	7	1	x1W_BL6_injured_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074785	2	0	1	7	1	x1W_BL6_injured_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074786	2	0	1	7	1	x1W_BL6_injured_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074787	2	0	1	7	1	x1W_BL6_injured_rep5	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074788	2	0	-1	7	1	x1W_BL6_uninjured_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074789	2	0	-1	7	1	x1W_BL6_uninjured_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074790	2	0	-1	7	1	x1W_BL6_uninjured_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074791	2	0	-1	7	1	x1W_BL6_uninjured_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074792	2	0	-1	7	1	x1W_BL6_uninjured_rep5	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074793	3	1	1	7	1	x1W_STR_injured_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074794	3	1	1	7	1	x1W_STR_injured_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074795	3	1	1	7	1	x1W_STR_injured_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074796	3	1	1	7	1	x1W_STR_injured_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074797	3	1	1	7	1	x1W_STR_injured_rep5	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074798	3	1	-1	7	1	x1W_STR_uninjured_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074799	3	1	-1	7	1	x1W_STR_uninjured_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074800	3	1	-1	7	1	x1W_STR_uninjured_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074801	3	1	-1	7	1	x1W_STR_uninjured_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 1-week post-injury	experimental batch: 1
+GSM3074802	1	-1	1	14	2	x2W_MRL_injured_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074803	1	-1	1	14	2	x2W_MRL_injured_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074804	1	-1	1	14	2	x2W_MRL_injured_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074805	1	-1	1	14	2	x2W_MRL_injured_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074806	1	-1	1	14	2	x2W_MRL_injured_rep5	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074807	1	-1	-1	14	2	x2W_MRL_uninjured_rep1	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074808	1	-1	-1	14	2	x2W_MRL_uninjured_rep2	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074809	1	-1	-1	14	2	x2W_MRL_uninjured_rep3	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074810	1	-1	-1	14	2	x2W_MRL_uninjured_rep4	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074811	1	-1	-1	14	2	x2W_MRL_uninjured_rep5	strain: MRL/MpJ	susceptibility to ptoa: not susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074812	2	0	1	14	2	x2W_BL6_injured_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074813	2	0	1	14	2	x2W_BL6_injured_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074814	2	0	1	14	2	x2W_BL6_injured_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074815	2	0	1	14	2	x2W_BL6_injured_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074816	2	0	1	14	2	x2W_BL6_injured_rep5	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074817	2	0	-1	14	2	x2W_BL6_uninjured_rep1	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074818	2	0	-1	14	2	x2W_BL6_uninjured_rep2	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074819	2	0	-1	14	2	x2W_BL6_uninjured_rep3	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074820	2	0	-1	14	2	x2W_BL6_uninjured_rep4	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074821	2	0	-1	14	2	x2W_BL6_uninjured_rep5	strain: C57BL/6	susceptibility to ptoa: moderately susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074822	3	1	1	14	2	x2W_STR_injured_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074823	3	1	1	14	2	x2W_STR_injured_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074824	3	1	1	14	2	x2W_STR_injured_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074825	3	1	1	14	2	x2W_STR_injured_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074826	3	1	1	14	2	x2W_STR_injured_rep5	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Injured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074827	3	1	-1	14	2	x2W_STR_uninjured_rep1	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074828	3	1	-1	14	2	x2W_STR_uninjured_rep2	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074829	3	1	-1	14	2	x2W_STR_uninjured_rep3	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074830	3	1	-1	14	2	x2W_STR_uninjured_rep4	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2
+GSM3074831	3	1	-1	14	2	x2W_STR_uninjured_rep5	strain: STR/ort	susceptibility to ptoa: highly susceptible	treatment: Uninjured	sample collection: 2-weeks post-injury	experimental batch: 2

@@ -1,0 +1,225 @@
+---
+title: "TOAST Differential Gene Analysis"
+output: html_notebook
+---
+
+Code used for the Venn Diagram and DEGs in TOAST
+
+# Required Libraries
+```{r Import Libraries}
+if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager')
+suppressWarnings(library(BiocManager, verbose = FALSE))
+if (!require("limma")) {BiocManager::install("limma")}
+suppressWarnings(library (limma, verbose = FALSE))
+if (!require("edgeR")) {BiocManager::install("edgeR")}
+suppressWarnings(library (edgeR, verbose = FALSE))
+if(!require(gplots)) install.packages("gplots", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (gplots, verbose = FALSE))
+if(!require(matrixStats)) install.packages("matrixStats", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (matrixStats, verbose = FALSE))
+if(!require(VennDiagram)) install.packages("VennDiagram", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (VennDiagram, verbose = FALSE))
+```
+
+# Differential Expression Analysis for DEGs
+DMM Differential Expression
+```{r DMM Differential Expression}
+## Import Data
+DMM.homolog.genes <- read.delim("TOAST_Data/GSE41342_DMM_mouse_homologGenes.txt", row.names = 1)
+DMM.phenotype <- read.delim("TOAST_Data/GSE41342_DMM_mouse_phenotypes.txt", row.names = 1)
+
+DMM.surgery <- relevel(as.factor(DMM.phenotype$Surgery), ref = "None")
+DMM.timePoints <- as.factor(DMM.phenotype$Time)
+
+DMM.homolog.genes <- DMM.homolog.genes[,4:26]
+DMM.phenotype <- DMM.phenotype[4:26,]
+DMM.surgery <- relevel(droplevels(DMM.surgery[4:26]), ref = "Sham")
+DMM.timePoints <- droplevels(DMM.timePoints[4:26])
+
+## Design and Contrasts: Injury and time
+DMM.design <- model.matrix(~DMM.surgery + DMM.timePoints)
+
+colnames(DMM.design)[1] <- "Intercept"
+colnames(DMM.design) <- gsub("DMM.surgery","",colnames(DMM.design))
+colnames(DMM.design) <- gsub("DMM.timePoints","day",colnames(DMM.design))
+
+DMM.contr.matrix <- makeContrasts(DMM, levels = colnames(DMM.design))
+
+## Linear fit
+DMM.fit <- lmFit(DMM.homolog.genes, DMM.design)
+DMM.fit <- contrasts.fit(DMM.fit, contrasts = DMM.contr.matrix)
+# DMM.tfit <- treat(DMM.fit, lfc=log2(1.5), trend=TRUE)
+DMM.efit <- eBayes(DMM.fit, trend=TRUE)
+
+## Get the DE genes
+DMM.decide.tests <- decideTests(DMM.efit, p.value = .05)
+print(summary(DMM.decide.tests))
+```
+
+ACLR Differential Expression
+```{r ACLR Differential Expression}
+## Import and separate out BL6 data
+ACLR.all.homolog.genes <- read.delim("TOAST_Data/GSE112641_mouse_homologGenes.txt", row.names = 1)
+ACLR.all.phenotype <- read.delim("TOAST_Data/GSE112641_mouse_phenotypes.txt", row.names = 1)
+
+BL6.subset <- grepl("BL6",colnames(ACLR.all.homolog.genes),fixed =TRUE)
+
+ACLR.BL6.homolog.genes <- ACLR.all.homolog.genes[,BL6.subset]
+ACLR.BL6.phenotype <- ACLR.all.phenotype[BL6.subset,]
+
+ACLR.injury <- relevel(as.factor(ACLR.BL6.phenotype$X.Sample_characteristics_ch1), ref="treatment: Uninjured")
+ACLR.timePoints <- as.factor(ACLR.BL6.phenotype$SampleCollectionNumeric_Days)
+# ACLR.strain <- as.factor(ACLR.BL6.phenotype$Strain)
+ACLR.batch <- as.factor(ACLR.BL6.phenotype$BatchNumeric)
+
+## Design and Contrasts: Just injury
+ACLR.design <- model.matrix(~ACLR.injury + ACLR.timePoints)
+
+colnames(ACLR.design)[1] <- "Intercept"
+colnames(ACLR.design) <- gsub("ACLR.injurytreatment: Injured","ACLR",colnames(ACLR.design))
+colnames(ACLR.design) <- gsub("ACLR.strain","",colnames(ACLR.design))
+colnames(ACLR.design) <- gsub("ACLR.timePoints","day",colnames(ACLR.design))
+colnames(ACLR.design) <- gsub("/","",colnames(ACLR.design))
+
+ACLR.contr.matrix <<- makeContrasts(ACLR, levels = colnames(ACLR.design))
+
+## Linear fit
+ACLR.fit <- lmFit(ACLR.BL6.homolog.genes, ACLR.design)
+ACLR.fit <- contrasts.fit(ACLR.fit, contrasts = ACLR.contr.matrix)
+# ACLR.tfit <- treat(ACLR.fit, lfc=log2(1.5), trend=TRUE)
+ACLR.efit <- eBayes(ACLR.fit, trend=TRUE)
+
+## Get the DE genes
+ACLR.decide.tests <- decideTests(ACLR.efit, p.value = .05)
+print(summary(ACLR.decide.tests))
+```
+
+GSE114007 Differential Expression
+```{r GSE114007 Differential Expression}
+## Import Data
+GSE114007.logExpr <- read.delim("TOAST_Data/GSE114007_human_log2_CPM.txt", row.names = 1)
+GSE114007.phenotype <- read.delim("TOAST_Data/GSE114007_human_phenotypes.txt", row.names = 1)
+
+GSE114007.disease <- as.factor(GSE114007.phenotype$Disease)
+GSE114007.age <- GSE114007.phenotype$Age
+GSE114007.sex <- as.factor(GSE114007.phenotype$Sex)
+
+## Design and Contrasts: Just injury
+GSE114007.design <- model.matrix(~GSE114007.disease + GSE114007.age + GSE114007.sex)
+
+colnames(GSE114007.design)[1] <- "Intercept"
+colnames(GSE114007.design) <- gsub("GSE114007.disease1","GSE114007.OA",colnames(GSE114007.design))
+colnames(GSE114007.design) <- gsub("GSE114007.sex1","Female",colnames(GSE114007.design))
+colnames(GSE114007.design) <- gsub("GSE114007.age","age",colnames(GSE114007.design))
+
+# GSE114007.contr.matrix <- makeContrasts(Intercept, disease1, age, sex1, levels = colnames(GSE114007.design))
+GSE114007.contr.matrix <- makeContrasts(GSE114007.OA, levels = colnames(GSE114007.design))
+
+## Linear fit
+GSE114007.fit <- lmFit(GSE114007.logExpr, GSE114007.design)
+GSE114007.fit <- contrasts.fit(GSE114007.fit, contrasts = GSE114007.contr.matrix)
+# GSE114007.tfit <- treat(GSE114007.fit, lfc=log2(1.5), trend=TRUE)
+GSE114007.efit <- eBayes(GSE114007.fit, trend=TRUE)
+
+## Get the DE genes
+GSE114007.decide.tests <- decideTests(GSE114007.efit, p.value = .05)
+print(summary(GSE114007.decide.tests))
+```
+
+GSE117999
+```{r GSE117999}
+## Import Data
+GSE117999.logExpr <- read.delim("TOAST_Data/GSE117999_human_genes.txt", row.names = 1)
+GSE117999.phenotype <- read.delim("TOAST_Data/GSE117999_human_phenotypes.txt", row.names = 1)
+
+GSE117999.disease <- as.factor(GSE117999.phenotype$Disease)
+GSE117999.age <- GSE117999.phenotype$AgeNumeric
+GSE117999.sex <- as.factor(GSE117999.phenotype$SexNumeric)
+
+## Design and Contrasts
+GSE117999.design <- model.matrix(~GSE117999.disease + GSE117999.age + GSE117999.sex)
+
+colnames(GSE117999.design)[1] <- "Intercept"
+colnames(GSE117999.design) <- gsub("GSE117999.disease1","GSE117999.OA",colnames(GSE117999.design))
+colnames(GSE117999.design) <- gsub("GSE117999.sex1","Female",colnames(GSE117999.design))
+colnames(GSE117999.design) <- gsub("GSE117999.age","age",colnames(GSE117999.design))
+
+# GSE117999.contr.matrix <- makeContrasts(Intercept, disease1, age, sex1, levels = colnames(GSE117999.design))
+GSE117999.contr.matrix <- makeContrasts(GSE117999.OA, levels = colnames(GSE117999.design))
+
+## Linear fit
+GSE117999.fit <- lmFit(GSE117999.logExpr, GSE117999.design)
+GSE117999.fit <- contrasts.fit(GSE117999.fit, contrasts = GSE117999.contr.matrix)
+# GSE117999.tfit <- treat(GSE117999.fit, lfc=log2(1.5), trend=TRUE)
+GSE117999.efit <- eBayes(GSE117999.fit, trend=TRUE)
+
+## Get the DE genes
+GSE117999.decide.tests <- decideTests(GSE117999.efit, p.value = .05)
+print(summary(GSE117999.decide.tests))
+```
+
+# Constructing Venn Diagrams
+```{r Venn Diagrams}
+## Get all of the gene names
+DMM.rownames <- rownames(DMM.homolog.genes)
+ACLR.rownames <- rownames(ACLR.BL6.homolog.genes)
+GSE114007.rownames <- rownames(GSE114007.logExpr)
+GSE117999.rownames <- rownames(GSE117999.logExpr)
+
+## Find genes common to all four sets of data
+common.genes <- Reduce(intersect, list(DMM.rownames,ACLR.rownames,GSE114007.rownames,GSE117999.rownames))
+
+## Keep only the differential test (1,-1, or 0) in each of the four sets for genes that are common to all sets
+ACLR.common.test.index <- which(rownames(ACLR.decide.tests) %in% common.genes)
+ACLR.common.tests <- ACLR.decide.tests[ACLR.common.test.index,1]
+
+DMM.common.test.index <- which(rownames(DMM.decide.tests) %in% common.genes)
+DMM.common.tests <- DMM.decide.tests[DMM.common.test.index,1]
+
+GSE114007.common.test.index <- which(rownames(GSE114007.decide.tests) %in% common.genes)
+GSE114007.common.tests <- GSE114007.decide.tests[GSE114007.common.test.index,1]
+
+GSE117999.common.test.index <- which(rownames(GSE117999.decide.tests) %in% common.genes)
+GSE117999.common.tests <- GSE117999.decide.tests[GSE117999.common.test.index,1]
+
+## Create a matrix with each of the common differential test results
+common.tests <- cbind(DMM.common.tests,ACLR.common.tests,GSE114007.common.tests,GSE117999.common.tests)
+common.tests.list <- list(`DMM` = c(DMM.common.tests),
+                        `GSE114007` = c(GSE114007.common.tests),
+                        `GSE117999` = c(GSE117999.common.tests),
+                        `ACLR` = c(ACLR.common.tests))
+
+## Turn matrix into simply differential or not (1 or 0, no -1)
+common.tests.up.or.down <- ((common.tests == 1)*1 + (common.tests == -1)*1)
+colnames(common.tests.up.or.down) <- c("DMM","ACLR","GSE114007","GSE117999")
+
+## Several ways to create a venn diagram (furthest down was venn in EPS format)
+venn(common.tests.up.or.down)
+
+vennDiagram(common.tests, include = "both")
+
+list.gene.names <- list(`DMM` = c(rownames(DMM.common.tests[which(DMM.common.tests != 0),1])),
+                        `ACLR` = c(rownames(ACLR.common.tests[which(ACLR.common.tests != 0),1])),
+                        `GSE117999` = c(rownames(GSE117999.common.tests[which(GSE117999.common.tests != 0),1])),
+                        `GSE114007` = c(rownames(GSE114007.common.tests[which(GSE114007.common.tests != 0),1])))
+## 1. Open the File
+jpeg("ggvenPlot_test.jpg", width = 1080, height = 1080)
+# eps("ggvenPlot_test.eps",width = 1080, height = 1080)
+
+## 2. Create the plot
+# ggvenn(list.gene.names,show_percentage = FALSE,set_name_size=22,text_size=20)
+venn.diagram(list.gene.names,filename = "venn.dimensions_function_test.png")
+ggsave("venn.dimensions_function_test.eps", device=cairo_ps)
+
+## 3. Close the file
+dev.off()
+
+## 4. Export list of genes from each data
+write_xlsx(as.data.frame(list.gene.names$DMM), "Venndiagram_DMM.xlsx")
+write_xlsx(as.data.frame(list.gene.names$ACLR), "Venndiagram_ACLR.xlsx")
+write_xlsx(as.data.frame(list.gene.names$GSE117999), "Venndiagram_999.xlsx")
+write_xlsx(as.data.frame(list.gene.names$GSE114007), "Venndiagram_007.xlsx")
+```
+
+
+
