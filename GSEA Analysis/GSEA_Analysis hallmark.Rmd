@@ -1,0 +1,425 @@
+---
+title: "GSEA for ACLR and DMM Hallmark"
+author: "Brendan Ball"
+date: "2024-04-30"
+output: html_document
+---
+
+# 0. IMPORT PACKAGES
+```{r Package Import, include=FALSE, warning=FALSE}
+# Downloads and calls from the library the necessary packages needed to run the code
+# CRAN
+if(!require(stringr)) install.packages("stringr", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (stringr, verbose = FALSE))
+if(!require(dplyr)) install.packages("dplyr", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (dplyr, verbose = FALSE))
+if(!require(tibble)) install.packages("tibble", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (tibble, verbose = FALSE))
+if(!require(ggforce)) install.packages("ggforce", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (ggforce, verbose = FALSE))
+if(!require(pheatmap)) install.packages("pheatmap", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (pheatmap, verbose = FALSE))
+if(!require(powerjoin)) install.packages("powerjoin", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (powerjoin, verbose = FALSE))
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (tidyverse, verbose = FALSE))
+if(!require(openxlsx)) install.packages("openxlsx", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (openxlsx, verbose = FALSE))
+if(!require(data.table)) install.packages("data.table", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (data.table, verbose = FALSE))
+if(!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (ggplot2, verbose = FALSE))
+# Bioconductor Import
+if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager')
+suppressWarnings(library(BiocManager, verbose = FALSE))
+if (!require("fgsea")) {BiocManager::install("fgsea")}
+suppressWarnings(library (fgsea, verbose = FALSE))
+if (!require("msigdbr")) {BiocManager::install("msigdbr")}
+suppressWarnings(library (msigdbr, verbose = FALSE))
+if(!require(org.Hs.eg.db)) install.packages("org.Hs.eg.db", repos = "http://cran.us.r-project.org")
+suppressWarnings(library (org.Hs.eg.db, verbose = FALSE))
+if (!require("clusterProfiler")) {BiocManager::install("clusterProfiler")}
+suppressWarnings(library (clusterProfiler, verbose = FALSE))
+```
+
+# 1. IMPORT LOADINGS
+```{r Import the Loadings}
+set.seed(1) # Set Seed for the GSEA
+# Import Mouse Loadings with genes
+Q_ACLR_Mouse <- read.csv("ACLRMouseLoadings_w_genes.csv")
+Q_DMM_Mouse <- read.csv("DMMMouseLoadings_w_genes.csv")
+
+# Rename the first column to geneID
+colnames(Q_ACLR_Mouse)[1] <- "geneID"
+colnames(Q_DMM_Mouse)[1] <- "geneID"
+```
+
+# 2 GENE SET ENRICHMENT ANALYSIS
+```{r ACLR MOUSE GENE SET ENRICHMENT ANALYSIS - hallmark PATHWAY}
+# SET THE DESIRED ORGANISM HERE
+organism <- "org.Hs.eg.db"
+# Prepare the dataset to be used for GSEA (hallmark)
+hs_hallmark_sets <- msigdbr(species = "Homo sapiens",
+                        category = "H"
+                       )
+
+# Move the row names to be in the first column
+Q_ACLR_GSE <- as.data.frame(Q_ACLR_Mouse)
+colnames(Q_ACLR_GSE)[1] <- "genelist"
+# Prepare a list of PC column names that will be used in the for loop
+pc_columns <- grep("XL", colnames(Q_ACLR_GSE), value = TRUE)
+# Create an empty list to store GSEA results for each PC
+gsea_results_list <- list()
+
+# GSEA Analysis - For Loop for All PCs
+for (pc_col in pc_columns) {
+  # Extract gene list for each of the current PC through the for loop
+  gene_list <- Q_ACLR_GSE[, c("genelist", pc_col)]
+  # Sort gene list by values of the loading scores
+  gene_list <- gene_list %>% arrange(desc(!!sym(pc_col)))
+  # Extract PC values for GSEA analysis
+  pc_gene_list <- gene_list[[pc_col]]
+  names(pc_gene_list) <- gene_list$genelist
+  # Run the GSEA analysis
+  gsea_results <- GSEA(
+    geneList = pc_gene_list,
+    minGSSize = 5,
+    maxGSSize = 500,
+    pvalueCutoff = 1, # Higher cutoff for visualization, but not all used
+    eps = 0,
+    seed = TRUE,
+    pAdjustMethod = "BH", # Benjamini-Hochberg correction factor
+    TERM2GENE = dplyr::select(hs_hallmark_sets, gs_name, gene_symbol)
+  )
+  # Store GSEA results in the list
+  gsea_results_list[[pc_col]] <- data.frame(gsea_results@result)
+}
+# Save for hallmark pathway
+hallmark_gsea_ACLR_list <- gsea_results_list
+# Save the GSEA File 
+#write.xlsx(hallmark_gsea_ACLR_list, "GSEA_hallmark_ACLR.xlsx")
+```
+
+```{r DMM MOUSE GENE SET ENRICHMENT ANALYSIS - hallmark PATHWAY}
+# SET THE DESIRED ORGANISM HERE
+organism <- "org.Hs.eg.db"
+# Prepare the dataset to be used for GSEA (hallmark)
+hs_hallmark_sets <- msigdbr(species = "Homo sapiens",
+                        category = "H"
+                       )
+
+# Move the row names to be in the first column
+Q_DMM_GSE <- as.data.frame(Q_DMM_Mouse)
+colnames(Q_DMM_GSE)[1] <- "genelist"
+# Prepare a list of PC column names that will be used in the for loop
+pc_columns <- grep("XL", colnames(Q_DMM_GSE), value = TRUE)
+# Create an empty list to store GSEA results for each PC
+gsea_results_list <- list()
+
+# GSEA Analysis - For Loop for All PCs
+for (pc_col in pc_columns) {
+  # Extract gene list for each of the current PC through the for loop
+  gene_list <- Q_DMM_GSE[, c("genelist", pc_col)]
+  # Sort gene list by values of the loading scores
+  gene_list <- gene_list %>% arrange(desc(!!sym(pc_col)))
+  # Extract PC values for GSEA analysis
+  pc_gene_list <- gene_list[[pc_col]]
+  names(pc_gene_list) <- gene_list$genelist
+  # Run the GSEA analysis
+  gsea_results <- GSEA(
+    geneList = pc_gene_list,
+    minGSSize = 5,
+    maxGSSize = 500,
+    pvalueCutoff = 1, # Higher cutoff for visualization, but not all used
+    eps = 0,
+    seed = TRUE,
+    pAdjustMethod = "BH", # Benjamini-Hochberg correction factor
+    TERM2GENE = dplyr::select(hs_hallmark_sets, gs_name, gene_symbol)
+  )
+  # Store GSEA results in the list
+  gsea_results_list[[pc_col]] <- data.frame(gsea_results@result)
+}
+# Save for hallmark pathway
+hallmark_gsea_DMM_list <- gsea_results_list
+# Save the GSEA File 
+#write.xlsx(hallmark_gsea_DMM_list, "GSEA_hallmark_DMM.xlsx")
+```
+
+# 3 HEATMAP OF ENRICHED PATHWAYS FROM GSEA
+```{r Heatmap of ACLR NES and Biological Pathways, warning=FALSE, include=FALSE}
+# Rename the respective dataframes, pulling information from size, NES, and padj for references
+# Pathways with adjusted Benjamini-Hochberg adjusted p-value was established at 0.25
+ACLR_XL1 <- hallmark_gsea_ACLR_list$XL1[,c(1,3,5,7)]
+rownames(ACLR_XL1) <- NULL
+ACLR_XL1 <- ACLR_XL1[ACLR_XL1$p.adjust <= 0.25, ]
+
+ACLR_XL2 <- hallmark_gsea_ACLR_list$XL2[,c(1,3,5,7)]
+rownames(ACLR_XL2) <- NULL
+ACLR_XL2 <- ACLR_XL2[ACLR_XL2$p.adjust <= 0.25, ]
+
+ACLR_XL3 <- hallmark_gsea_ACLR_list$XL3[,c(1,3,5,7)]
+rownames(ACLR_XL3) <- NULL
+ACLR_XL3 <- ACLR_XL3[ACLR_XL3$p.adjust <= 0.25, ]
+
+ACLR_XL4 <- hallmark_gsea_ACLR_list$XL4[,c(1,3,5,7)]
+rownames(ACLR_XL4) <- NULL
+ACLR_XL4 <- ACLR_XL4[ACLR_XL4$p.adjust <= 0.25, ]
+
+ACLR_XL5 <- hallmark_gsea_ACLR_list$XL5[,c(1,3,5,7)]
+rownames(ACLR_XL5) <- NULL
+ACLR_XL5 <- ACLR_XL5[ACLR_XL5$p.adjust <= 0.25, ]
+
+ACLR_XL6 <- hallmark_gsea_ACLR_list$XL6[,c(1,3,5,7)]
+rownames(ACLR_XL6) <- NULL
+ACLR_XL6 <- ACLR_XL6[ACLR_XL6$p.adjust <= 0.25, ]
+
+ACLR_XL7 <- hallmark_gsea_ACLR_list$XL7[,c(1,3,5,7)]
+rownames(ACLR_XL7) <- NULL
+ACLR_XL7 <- ACLR_XL7[ACLR_XL7$p.adjust <= 0.25, ]
+
+# Combine the data frames from GSEA into a dataframe containing Size, NES, and padj
+ACLR_DF <- Reduce(function(x, y) merge(x, y, by = "ID", all = TRUE), list(ACLR_XL1, ACLR_XL2, ACLR_XL3, ACLR_XL4, ACLR_XL5,  ACLR_XL6, ACLR_XL7))
+
+# Replace missing values with zeros
+ACLR_DF[is.na(ACLR_DF)] <- 0
+# Rename columns based on their respective information and XL 
+colnames(ACLR_DF)[1] <- "ID"
+
+colnames(ACLR_DF)[2] <- "size_XL1"
+colnames(ACLR_DF)[3] <- "NES_XL1"
+colnames(ACLR_DF)[4] <- "padj_XL1"
+
+colnames(ACLR_DF)[5] <- "size_XL2"
+colnames(ACLR_DF)[6] <- "NES_XL2"
+colnames(ACLR_DF)[7] <- "padj_XL2"
+
+colnames(ACLR_DF)[8] <- "size_XL3"
+colnames(ACLR_DF)[9] <- "NES_XL3"
+colnames(ACLR_DF)[10] <- "padj_XL3"
+
+colnames(ACLR_DF)[11] <- "size_XL4"
+colnames(ACLR_DF)[12] <- "NES_XL4"
+colnames(ACLR_DF)[13] <- "padj_XL4"
+
+colnames(ACLR_DF)[14] <- "size_XL5"
+colnames(ACLR_DF)[15] <- "NES_XL5"
+colnames(ACLR_DF)[16] <- "padj_XL5"
+
+colnames(ACLR_DF)[17] <- "size_XL6"
+colnames(ACLR_DF)[18] <- "NES_XL6"
+colnames(ACLR_DF)[19] <- "padj_XL6"
+
+colnames(ACLR_DF)[20] <- "size_XL7"
+colnames(ACLR_DF)[21] <- "NES_XL7"
+colnames(ACLR_DF)[22] <- "padj_XL7"
+
+# Columns with just ID and size, or ID and NES, or ID and padj
+columns_size <- grep("^ID$|size_XL", names(ACLR_DF), value = TRUE)
+columns_NES <- grep("^ID$|NES_XL", names(ACLR_DF), value = TRUE)
+columns_padj <- grep("^ID$|padj_XL", names(ACLR_DF), value = TRUE)
+# Subset data frame for columns with just ID and size
+ACLR_size <- ACLR_DF[, columns_size]
+ACLR_NES <- ACLR_DF[, columns_NES]
+ACLR_padj <- ACLR_DF[, columns_padj]
+# Make size numeric if needed
+for (i in 2:ncol(ACLR_size)) {
+  ACLR_size[,i] <- as.numeric(ACLR_size[,i])
+}
+# Prepare the matrix for ACLR size
+rownames(ACLR_size) <- ACLR_size[,1]
+ACLR_size <- ACLR_size[,-1]
+ACLR_size <- as.matrix(ACLR_size)
+# Prepare the matrix for ACLR NES
+rownames(ACLR_NES) <- ACLR_NES[,1]
+ACLR_NES <- ACLR_NES[,-1]
+ACLR_NES <- as.matrix(ACLR_NES)
+
+# Pull only PC1 3 4 and 6 for ACLR
+ACLR_NES <- ACLR_NES[, c(1, 3, 4, 6)]
+
+# Correct NES direction based on human scores plot projected into mouse PC space
+ACLR_NES <- as.data.frame(ACLR_NES)
+ACLR_NES$NES_XL3 <- ACLR_NES$NES_XL3 * -1
+
+svg('ACLR_NES_Heatmap.svg', width = 5, height = 4)
+# Heatmap for ACLR NES
+pheatmap(ACLR_NES,
+  cluster_rows = TRUE,
+  cluster_cols = FALSE,
+  color = colorRampPalette(c("blue", "white", "red"))(10000),
+  border_color = "black",
+  breaks = seq(-2.5, 2.5, length.out = 10000),
+  angle_col = 45,
+  fontsize_col = 8,
+  fontsize_row = 5,
+  cellwidth = 8,
+  cellheight = 5,
+  show_colnames = TRUE,
+  show_rownames = TRUE) 
+dev.off()
+```
+
+```{r Heatmap of DMM NES and Biological Pathways, warning=FALSE, include=FALSE}
+# Rename the respective dataframe, pulling information from size, NES, and padj for references
+# Pathways with adjusted Benjamini-Hochberg adjusted p-value was established at 0.25
+DMM_XL1 <- hallmark_gsea_DMM_list$XL1[,c(1,3,5,7)]
+rownames(DMM_XL1) <- NULL
+DMM_XL1 <- DMM_XL1[DMM_XL1$p.adjust <= 0.25, ]
+
+DMM_XL2 <- hallmark_gsea_DMM_list$XL2[,c(1,3,5,7)]
+rownames(DMM_XL2) <- NULL
+DMM_XL2 <- DMM_XL2[DMM_XL2$p.adjust <= 0.25, ]
+
+DMM_XL3 <- hallmark_gsea_DMM_list$XL3[,c(1,3,5,7)]
+rownames(DMM_XL3) <- NULL
+DMM_XL3 <- DMM_XL3[DMM_XL3$p.adjust <= 0.25, ]
+
+DMM_XL4 <- hallmark_gsea_DMM_list$XL4[,c(1,3,5,7)]
+rownames(DMM_XL4) <- NULL
+DMM_XL4 <- DMM_XL4[DMM_XL4$p.adjust <= 0.25, ]
+
+DMM_XL5 <- hallmark_gsea_DMM_list$XL5[,c(1,3,5,7)]
+rownames(DMM_XL5) <- NULL
+DMM_XL5 <- DMM_XL5[DMM_XL5$p.adjust <= 0.25, ]
+
+DMM_XL6 <- hallmark_gsea_DMM_list$XL6[,c(1,3,5,7)]
+rownames(DMM_XL6) <- NULL
+DMM_XL6 <- DMM_XL6[DMM_XL6$p.adjust <= 0.25, ]
+
+DMM_XL7 <- hallmark_gsea_DMM_list$XL7[,c(1,3,5,7)]
+rownames(DMM_XL7) <- NULL
+DMM_XL7 <- DMM_XL7[DMM_XL7$p.adjust <= 0.25, ]
+
+DMM_XL8 <- hallmark_gsea_DMM_list$XL8[,c(1,3,5,7)]
+rownames(DMM_XL8) <- NULL
+DMM_XL8 <- DMM_XL8[DMM_XL8$p.adjust <= 0.25, ]
+
+DMM_XL9 <- hallmark_gsea_DMM_list$XL9[,c(1,3,5,7)]
+rownames(DMM_XL9) <- NULL
+DMM_XL9 <- DMM_XL9[DMM_XL9$p.adjust <= 0.25, ]
+
+DMM_XL10 <- hallmark_gsea_DMM_list$XL10[,c(1,3,5,7)]
+rownames(DMM_XL10) <- NULL
+DMM_XL10 <- DMM_XL10[DMM_XL10$p.adjust <= 0.25, ]
+
+DMM_XL11 <- hallmark_gsea_DMM_list$XL11[,c(1,3,5,7)]
+rownames(DMM_XL11) <- NULL
+DMM_XL11 <- DMM_XL11[DMM_XL11$p.adjust <= 0.25, ]
+
+DMM_XL12 <- hallmark_gsea_DMM_list$XL12[,c(1,3,5,7)]
+rownames(DMM_XL12) <- NULL
+DMM_XL12 <- DMM_XL12[DMM_XL12$p.adjust <= 0.25, ]
+
+DMM_XL13 <- hallmark_gsea_DMM_list$XL13[,c(1,3,5,7)]
+rownames(DMM_XL13) <- NULL
+DMM_XL13 <- DMM_XL13[DMM_XL13$p.adjust <= 0.25, ]
+
+# Combine the data frames from GSEA into a dataframe containing Size, NES, and padj
+DMM_DF <- Reduce(function(x, y) merge(x, y, by = "ID", all = TRUE), list(DMM_XL1, DMM_XL2, DMM_XL3, DMM_XL4, DMM_XL5,  DMM_XL6, DMM_XL7, DMM_XL8, DMM_XL9, DMM_XL10, DMM_XL11, DMM_XL12, DMM_XL13))
+# Replace missing values with zeros
+DMM_DF[is.na(DMM_DF)] <- 0
+# Rename columns based on their respective information and XL 
+colnames(DMM_DF)[1] <- "ID"
+
+colnames(DMM_DF)[2] <- "size_XL1"
+colnames(DMM_DF)[3] <- "NES_XL1"
+colnames(DMM_DF)[4] <- "padj_XL1"  
+
+colnames(DMM_DF)[5] <- "size_XL2"
+colnames(DMM_DF)[6] <- "NES_XL2"
+colnames(DMM_DF)[7] <- "padj_XL2"
+
+colnames(DMM_DF)[8] <- "size_XL3"
+colnames(DMM_DF)[9] <- "NES_XL3"
+colnames(DMM_DF)[10] <- "padj_XL3"
+
+colnames(DMM_DF)[11] <- "size_XL4"
+colnames(DMM_DF)[12] <- "NES_XL4"
+colnames(DMM_DF)[13] <- "padj_XL4"
+
+colnames(DMM_DF)[14] <- "size_XL5"
+colnames(DMM_DF)[15] <- "NES_XL5"
+colnames(DMM_DF)[16] <- "padj_XL5"
+
+colnames(DMM_DF)[17] <- "size_XL6"
+colnames(DMM_DF)[18] <- "NES_XL6"
+colnames(DMM_DF)[19] <- "padj_XL6"
+
+colnames(DMM_DF)[20] <- "size_XL7"
+colnames(DMM_DF)[21] <- "NES_XL7"
+colnames(DMM_DF)[22] <- "padj_XL7"
+
+colnames(DMM_DF)[23] <- "size_XL8"
+colnames(DMM_DF)[24] <- "NES_XL8"
+colnames(DMM_DF)[25] <- "padj_XL8"
+
+colnames(DMM_DF)[26] <- "size_XL9"
+colnames(DMM_DF)[27] <- "NES_XL9"
+colnames(DMM_DF)[28] <- "padj_XL9"
+
+colnames(DMM_DF)[29] <- "size_XL10"
+colnames(DMM_DF)[30] <- "NES_XL10"
+colnames(DMM_DF)[31] <- "padj_XL10"
+
+colnames(DMM_DF)[32] <- "size_XL11"
+colnames(DMM_DF)[33] <- "NES_XL11"
+colnames(DMM_DF)[34] <- "padj_XL11"
+
+colnames(DMM_DF)[35] <- "size_XL12"
+colnames(DMM_DF)[36] <- "NES_XL12"
+colnames(DMM_DF)[37] <- "padj_XL12"
+
+colnames(DMM_DF)[38] <- "size_XL13"
+colnames(DMM_DF)[39] <- "NES_XL13"
+colnames(DMM_DF)[40] <- "padj_XL13"
+
+# Columns with just ID and size, or ID and NES, or ID and padj
+columns_size <- grep("^ID$|size_XL", names(DMM_DF), value = TRUE)
+columns_NES <- grep("^ID$|NES_XL", names(DMM_DF), value = TRUE)
+columns_padj <- grep("^ID$|padj_XL", names(DMM_DF), value = TRUE)
+# Subset data frame for columns with just ID and size
+DMM_size <- DMM_DF[, columns_size]
+DMM_NES <- DMM_DF[, columns_NES]
+DMM_padj <- DMM_DF[, columns_padj]
+# Make size numeric if needed
+for (i in 2:ncol(DMM_size)) {
+  DMM_size[,i] <- as.numeric(DMM_size[,i])
+}
+# Prepare the matrix for DMM size
+rownames(DMM_size) <- DMM_size[,1]
+DMM_size <- DMM_size[,-1]
+DMM_size <- as.matrix(DMM_size)
+# Prepare the matrix for DMM NES
+rownames(DMM_NES) <- DMM_NES[,1]
+DMM_NES <- DMM_NES[,-1]
+DMM_NES <- as.matrix(DMM_NES)
+
+# Pull columns that are related to selected PCs 3 4 8 9 10 11 13
+DMM_NES <- DMM_NES[, c(3, 4, 8, 9, 10, 11, 13)]
+
+# Correct NES direction based on human scores plot projected into mouse PC space
+DMM_NES <- as.data.frame(DMM_NES)
+DMM_NES$NES_XL4 <- DMM_NES$NES_XL4 * -1
+DMM_NES$NES_XL8 <- DMM_NES$NES_XL8 * -1
+DMM_NES$NES_XL13 <- DMM_NES$NES_XL13 * -1
+
+# Heatmap for DMM NES
+#svg('DMM_NES_Heatmap.svg', width = 5, height = 8.75)
+heatmapfig <- pheatmap(DMM_NES,
+  cluster_rows = TRUE,
+  cluster_cols = FALSE,
+  color = colorRampPalette(c("blue", "white", "red"))(10000),
+  border_color = "black",
+  breaks = seq(-2.5, 2.5, length.out = 10000),
+  angle_col = 45,
+  fontsize_col = 8,
+  fontsize_row = 5,
+  cellwidth = 8,
+  cellheight = 5,
+  show_colnames = TRUE,
+  show_rownames = TRUE) 
+#dev.off()
+```
+
+
+
